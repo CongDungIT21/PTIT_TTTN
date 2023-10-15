@@ -54,15 +54,15 @@ public class Pool
     // Spawn an object from our pool
     public PoolMember Spawn(Vector3 pos, Quaternion rot)
     {
-        //[Nếu clamp = true và đả spawn hết thì sao ????]
-
-        // Grab the last object in the inactive array
-        PoolMember obj = inactive.Dequeue();
-
-        if (obj == null)
+        PoolMember obj;
+        if (inactive.Count == 0)
         {
-            Debug.Log("Null rooif");
-            return Spawn(pos, rot);
+            obj = (PoolMember)GameObject.Instantiate(prefab);
+            obj.transform.parent = m_sRoot;
+        }
+        else
+        {
+            obj = inactive.Dequeue();
         }
 
         obj.tf.SetPositionAndRotation(pos, rot);

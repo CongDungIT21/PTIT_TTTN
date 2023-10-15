@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PoolControler : MonoBehaviour
 {
-    [Header("Pools")]
+    [Header("Infomation Pool Member")]
     public PoolAmount[] Pools;
 
     private void Awake()
