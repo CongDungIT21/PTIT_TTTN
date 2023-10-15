@@ -98,3 +98,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poolType: 1
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 8

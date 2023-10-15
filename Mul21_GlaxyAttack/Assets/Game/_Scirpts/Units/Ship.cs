@@ -90,7 +90,6 @@ public class Ship : GameUnit
 
     private void Fire()
     {
-        Debug.Log("HIHIHIH");
         Barrel barrel = barrels[_barrelIdx];
         for (int i = 0; i < barrel.points.Length; i++)
         {
