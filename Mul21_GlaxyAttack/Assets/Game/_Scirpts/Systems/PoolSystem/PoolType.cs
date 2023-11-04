@@ -1,5 +1,6 @@
 public enum PoolType
 {
     NONE,
-    BULLET
+    BULLET,
+    ENEMY
 }

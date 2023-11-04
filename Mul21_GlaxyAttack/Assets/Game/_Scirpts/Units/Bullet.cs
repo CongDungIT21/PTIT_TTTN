@@ -35,7 +35,6 @@ public class Bullet : PoolMember
     {
         if (Physics.Raycast(tf.position, tf.up, out hit, Time.deltaTime * _speed * 2.5f, enemyLayer))
         {
-            Debug.Log("Contact enemy");
             //TODO: Spawn Effect
             //CacheCollider.GetEnemy(hit.collider).TakeDamage(1);
             CacheCollider.GetITakeHit(hit.collider).TakeHit(1);
