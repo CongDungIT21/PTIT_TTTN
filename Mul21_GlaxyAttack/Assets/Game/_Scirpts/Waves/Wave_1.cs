@@ -13,8 +13,9 @@ public class Wave_1 : Wave
     private int _idxModelPoint = 0;
     private List<Enemy> _enemies = new List<Enemy>();
 
-    public override void OnInit()
+    public override void OnInit(Level level)
     {
+        this.level = level;
         this.SpawnEnemies();
     }
 
@@ -65,4 +66,9 @@ public class Wave_1 : Wave
         Invoke(nameof(LoopEnemiesMoving), 1.75f);
     }
 
+    public override void AllEnemyDetach()
+    {
+        Debug.Log("All Enemy Detach");
+        this.level.LoadNextWave();
+    }
 }

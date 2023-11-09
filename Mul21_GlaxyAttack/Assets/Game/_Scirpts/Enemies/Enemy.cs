@@ -11,7 +11,8 @@ public class Enemy : Character, ITakeHit
     Transform skin;
 
     public int _idx { get; private set; }
-    private bool _isImmortal = false;
+    public bool isImmortal { get ; set;}
+
     private Wave _wave;
 
     private void Start()
@@ -27,7 +28,7 @@ public class Enemy : Character, ITakeHit
 
     public void TakeHit(float damage)
     {
-        if (_isImmortal) return;
+        if (isImmortal) return;
 
         this.OnHit(damage);
 
@@ -41,13 +42,13 @@ public class Enemy : Character, ITakeHit
 
     public void TweenJoinWave(Vector3[] pathJoin, float t, PathType linear)
     {
-        _isImmortal = true;
+        isImmortal = true;
 
         tf.DOPath(pathJoin, t, linear)
             .SetEase(Ease.Linear)
             .OnComplete(() =>
             {
-                _isImmortal = false;
+                isImmortal = false;
             });
     }
 

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Character : PoolMember
+public abstract class Character : PoolMember
 {
     private float _MAX_HP;
     public float _hp;

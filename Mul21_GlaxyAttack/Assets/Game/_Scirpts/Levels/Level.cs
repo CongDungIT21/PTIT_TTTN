@@ -24,13 +24,18 @@ public abstract class Level : MonoBehaviour
     {
         _IdxWave = 0;
         _CurrentWave = this.waves[_IdxWave];
-        this._CurrentWave.OnInit();
+        this._CurrentWave.OnInit(this);
     }
 
     public void LoadNextWave()
     {
         this._IdxWave++;
-        this._CurrentWave = this.waves[this._IdxWave];
-        this._CurrentWave.OnInit();
+
+        if (this._IdxWave < this.waves.Length)
+        {
+            this._CurrentWave = this.waves[this._IdxWave];
+            this._CurrentWave.OnInit(this);
+        }
+
     }
 }
