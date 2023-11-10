@@ -2,18 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class PointSpawn
+{
+    public Transform tf_pointSpawn;
+    public Transform[] tf_pointModels;
+}
+
 public abstract class Wave : MonoBehaviour
 {
-    protected List<Enemy> _AliveEnemies = new List<Enemy>();
+    protected List<AbstractEnemy> _AliveEnemies = new List<AbstractEnemy>();
     protected Level level;
     public abstract void OnInit(Level level);
 
-    public virtual void Attach(Enemy enemy)
+    public virtual void Attach(AbstractEnemy enemy)
     {
         this._AliveEnemies.Add(enemy);
     }
 
-    public virtual void Detach(Enemy enemy)
+    public virtual void Detach(AbstractEnemy enemy)
     {
         Debug.Log("Detach");
         this._AliveEnemies.Remove(enemy);

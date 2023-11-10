@@ -1,5 +1,37 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3488162637878717923
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3785940879725483262}
+  m_Layer: 6
+  m_Name: Barrel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3785940879725483262
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3488162637878717923}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3332314504773626599}
+  m_Father: {fileID: 6214229895590916888}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4576462519233133653
 GameObject:
   m_ObjectHideFlags: 0
@@ -9,7 +41,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8501029733661722271}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Skin_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,7 +78,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6214229894464997553}
   - component: {fileID: 6214229894464997552}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -130,7 +162,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6214229894550377744}
   - component: {fileID: 6214229894550377751}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Feeler Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -194,7 +226,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6214229894877737367}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -227,7 +259,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6214229894893589326}
   - component: {fileID: 6214229894893589325}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Jaw
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -311,7 +343,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6214229895011823585}
   - component: {fileID: 6214229895011823584}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Feeler1 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -395,7 +427,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6214229895202491853}
   - component: {fileID: 6214229895202491852}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Feeler1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -480,9 +512,9 @@ GameObject:
   - component: {fileID: 6214229895590916888}
   - component: {fileID: 6214229895590916894}
   - component: {fileID: 6214229895590916895}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -500,6 +532,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6214229894877737367}
+  - {fileID: 3785940879725483262}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -515,9 +548,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 983f013bc704f794c9c8aad9108a48aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  poolType: 2
+  poolType: 4
   _hp: 0
   skin: {fileID: 8501029733661722271}
+  barrel:
+    rate: 2
+    points:
+    - {fileID: 3332314504773626599}
 --- !u!135 &6214229895590916895
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -541,7 +578,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6214229895775534391}
   - component: {fileID: 6214229895775534390}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Feeler2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -624,7 +661,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6214229895824633846}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Feeler Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -645,4 +682,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8501029733661722271}
   m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6523448801312439651
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3332314504773626599}
+  m_Layer: 6
+  m_Name: Point_1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3332314504773626599
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6523448801312439651}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.45, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3785940879725483262}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

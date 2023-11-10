@@ -12,11 +12,15 @@ public class Barrel
     public Transform[] points;
 }
 
-public class Ship : GameUnit
+public class Ship : Character, ITakeHit, IShootable
 {
     [SerializeField]
     Barrel[] barrels;
     CounterTime counterTime = new CounterTime();
+
+    //-------------SOUND
+    [SerializeField]
+    AudioSource shootSound;
 
     private float _speed = 300f;
     private int _barrelIdx = 0;
@@ -26,10 +30,12 @@ public class Ship : GameUnit
 
     private bool canControl = false;
 
+    public bool isImmortal { get ; set ; }
+
     private void Start()
     {
-        counterTime.CounterStart(null, Fire, 0.2f);
-        canControl = true;
+        OnInit(40);
+        Shoot();
     }
 
     private void Update()
@@ -58,10 +64,11 @@ public class Ship : GameUnit
 
     private void Fire()
     {
+        //shootSound.Play();
         Barrel barrel = barrels[_barrelIdx];
         for (int i = 0; i < barrel.points.Length; i++)
         {
-            PoolManager.Spawn(PoolType.BULLET, barrel.points[i].position, barrel.points[i].rotation);
+            PoolManager.Spawn(PoolType.BULLET_SHIP_1, barrel.points[i].position, barrel.points[i].rotation);
         }
 
         counterTime.CounterStart(null, Fire, barrel.rate);
@@ -72,5 +79,17 @@ public class Ship : GameUnit
     {
         yield return new WaitForSeconds(delay);
         callBack?.Invoke();
+    }
+
+    public void TakeHit(float damage)
+    {
+        Debug.Log("Take Hit Player");
+        OnHit(damage);
+    }
+
+    public void Shoot()
+    {
+        counterTime.CounterStart(null, Fire, 0.2f);
+        canControl = true;
     }
 }

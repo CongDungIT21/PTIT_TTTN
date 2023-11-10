@@ -12,12 +12,24 @@ public class LevelManager : Singleton<LevelManager>
 
     private void Start()
     {
-        this.LoadStartLevel();
+       LoadStartLevel();
     }
 
     private void LoadStartLevel()
     {
         _idxLevel = 0;
+        this.LoadLevel();
+    }
+
+    public void LoadNextLevel()
+    {
+        _idxLevel++;
+        this.LoadLevel();
+    }
+
+    private void LoadLevel()
+    {
+        Debug.Log("Load Level: " + _idxLevel);
         this._CurrentLevel = this.levels[this._idxLevel];
         this._CurrentLevel.OnInit();
     }

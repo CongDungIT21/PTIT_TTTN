@@ -5,25 +5,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Enemy : Character, ITakeHit
+
+
+public class Enemy : AbstractEnemy, ITakeHit, IShootable
 {
     [SerializeField]
     Transform skin;
 
-    public int _idx { get; private set; }
-    public bool isImmortal { get ; set;}
+    [SerializeField]
+    Barrel barrel;
+    CounterTime counterTime = new CounterTime();
 
-    private Wave _wave;
+    public int _idx { get; private set; }
+
+    private bool _canShoot = false;
+    public bool isImmortal { get ; set;}
 
     private void Start()
     {
         this.OnInit(10);
     }
 
-    public void OnSetup(Wave wave, int idx)
+    public override void OnSetup(Wave wave)
     {
-        this._idx = idx;
-        this._wave = wave;
+        this.wave = wave;
+        this._canShoot = false;
     }
 
     public void TakeHit(float damage)
@@ -34,13 +40,12 @@ public class Enemy : Character, ITakeHit
 
         if(this.IsDead())
         {
-            //GameObject.Destroy(this.gameObject);
             PoolManager.Despawn(this);
-            this._wave.Detach(this);
+            this.wave.Detach(this);
         }
     }
 
-    public void TweenJoinWave(Vector3[] pathJoin, float t, PathType linear)
+    public override void TweenJoinWave(Vector3[] pathJoin, float t, PathType linear)
     {
         isImmortal = true;
 
@@ -49,33 +54,42 @@ public class Enemy : Character, ITakeHit
             .OnComplete(() =>
             {
                 isImmortal = false;
+                Shoot();
             });
     }
 
-    public void TweenMoveToTarget(Vector3 posTarget, float t, UnityAction onCompleteCallback)
+    public void TweenMoveToTarget(Vector3 posTarget, float t)
     {
         tf.DOMove(posTarget, t)
             .SetEase(Ease.Linear)
             .OnComplete(() =>
             {
-                onCompleteCallback?.Invoke();
+                Debug.Log("Tween Complite");                
             });
     }
 
-    public void TweenMoveUpDown(float t)
-    {
-        Debug.Log("TweenMoveUpDown");
-        float endValue = 0.25f * ((_idx % 2) - 0.5f) * 2;
-        float dt = t / 3;
 
-        skin.DOLocalMoveY(endValue, dt)
-            .OnComplete(() =>
-            {
-                skin.DOLocalMoveY(-endValue, dt)
-                    .OnComplete(() =>
-                    {
-                        skin.DOLocalMoveY(0, dt);
-                    });
-            });
+    public void Shoot()
+    {
+        _canShoot = true;
+        counterTime.CounterStart(null, Fire, 0.2f);
+    }
+
+    public void Fire()
+    {
+        for (int i = 0; i < barrel.points.Length; i++)
+        {
+            PoolManager.Spawn(PoolType.BULLET_ENEMY_1, barrel.points[i].position, barrel.points[i].rotation);
+        }
+
+        counterTime.CounterStart(null, Fire, barrel.rate);
+    }
+
+    private void Update()
+    {
+        if (_canShoot)
+        {
+            counterTime.CounterExecute();
+        }
     }
 }

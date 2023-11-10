@@ -22,6 +22,7 @@ public abstract class Level : MonoBehaviour
     }
     public void LoadStartWave()
     {
+        Debug.Log("LoadStartWave");
         _IdxWave = 0;
         _CurrentWave = this.waves[_IdxWave];
         this._CurrentWave.OnInit(this);
@@ -29,6 +30,7 @@ public abstract class Level : MonoBehaviour
 
     public void LoadNextWave()
     {
+        Debug.Log("LoadNextWave");
         this._IdxWave++;
 
         if (this._IdxWave < this.waves.Length)
@@ -36,6 +38,9 @@ public abstract class Level : MonoBehaviour
             this._CurrentWave = this.waves[this._IdxWave];
             this._CurrentWave.OnInit(this);
         }
-
+        else
+        {
+            LevelManager.Instance.LoadNextLevel();
+        }
     }
 }

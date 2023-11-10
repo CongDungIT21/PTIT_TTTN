@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class BackgroundControll : MonoBehaviour
+public class BackgroundScolling : MonoBehaviour
 {
     [SerializeField]
     Transform bg_1;
