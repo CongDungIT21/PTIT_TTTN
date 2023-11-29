@@ -1,5 +1,4 @@
 using DG.Tweening;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -33,6 +32,8 @@ public class Enemy_3 : AbstractEnemy, ITakeHit, IShootable
 
         if (this.IsDead())
         {
+            if (CanSpawnCoin())
+                PoolManager.Spawn(PoolType.COIN, tf.position, tf.rotation);
             PoolManager.Despawn(this);
             wave.Detach(this);
         }
@@ -85,5 +86,11 @@ public class Enemy_3 : AbstractEnemy, ITakeHit, IShootable
           {
               _canShoot = true;
           });
+    }
+
+    private bool CanSpawnCoin()
+    {
+        int numRandom = Random.Range(0, 100);
+        return numRandom >= 50;
     }
 }

@@ -1,0 +1,36 @@
+{
+  "Ships": [
+    {
+      "name": "\"Ship_1\"",
+      "hp": 50,
+      "barrel": 1
+    },
+    {
+      "name": "\"Ship_2\"",
+      "hp": 40,
+      "barrel": 2
+    },
+    {
+      "name": "\"Ship_3\"",
+      "hp": 60,
+      "barrel": 2
+    }
+  ],
+  "Bullets": [
+    {
+      "name": "\"Bullet_1\"",
+      "damage": 5,
+      "rate": 0.3
+    },
+    {
+      "name": "\"Bullet_2\"",
+      "damage": 4,
+      "rate": 0.2
+    },
+    {
+      "name": "\"Bullet_3\"",
+      "damage": 6,
+      "rate": 0.2
+    }
+  ]
+}

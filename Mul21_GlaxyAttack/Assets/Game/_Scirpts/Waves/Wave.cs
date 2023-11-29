@@ -22,16 +22,19 @@ public abstract class Wave : MonoBehaviour
 
     public virtual void Detach(AbstractEnemy enemy)
     {
-        Debug.Log("Detach");
         this._AliveEnemies.Remove(enemy);
-        Debug.Log(this._AliveEnemies.Count);
 
         if(this._AliveEnemies.Count <= 0)
         {
-            Debug.Log("Alive Count < 0");
             //TODO: Load Next Wave
             this.AllEnemyDetach();
         }
+    }
+
+    public virtual void DetachAllEnemy()
+    {
+        foreach (AbstractEnemy enemy in _AliveEnemies)
+            if(enemy != null) PoolManager.Despawn(enemy);
     }
 
     public abstract void AllEnemyDetach();

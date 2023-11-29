@@ -10,6 +10,8 @@ public class Wave_2 : Wave
     public override void OnInit(Level level)
     {
         this.level = level;
+        this._AliveEnemies = new List<AbstractEnemy>();
+        
         foreach (PointSpawn pointSpawn in pointSpawns)
         {
             this.SpawnEnemies(pointSpawn);

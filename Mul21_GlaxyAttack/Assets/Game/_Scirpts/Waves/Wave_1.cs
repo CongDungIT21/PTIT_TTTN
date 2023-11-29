@@ -14,26 +14,14 @@ public class Wave_1 : Wave
     public override void OnInit(Level level)
     {
         this.level = level;
+        this._AliveEnemies = new List<AbstractEnemy>();
+        this._enemies = new List<AbstractEnemy>();
 
         foreach (PointSpawn pointSpawn in pointSpawns)
         {
             SpawnEnemies(pointSpawn);
         }
     }
-
-/*    private void SpawnEnemies()
-    {
-        for (int i = 0; i < tf_modelPoints.Length; i++)
-        {
-            AbstractEnemy enemy = PoolManager.Spawn<AbstractEnemy>(PoolType.ENEMY_1, tf_pointSpawn.position, Quaternion.identity);
-            enemy.OnSetup(this);
-            Attach(enemy);
-            _enemies.Add(enemy);
-            JoinModel(enemy);
-        }
-
-        //Invoke(nameof(LoopEnemiesMoving), 1f);
-    }*/
 
     private void SpawnEnemies(PointSpawn pointSpawn)
     {
@@ -52,33 +40,6 @@ public class Wave_1 : Wave
         Vector3[] pathJoin = { spawnPoint.position, modelPoint.position };
         enemy.TweenJoinWave(pathJoin, 1f, DG.Tweening.PathType.Linear);
     }
-
-    /*    private void LoopEnemiesMoving()
-        {
-            this.MoveEnemies(this._idxModelPoint++);
-        }
-
-        private void MoveEnemies(int idx)
-        {
-            if(_AliveEnemies.Count <= 0)
-            {
-                Debug.Log("All Enemies Die");
-                return;
-            }
-
-            for(int i = 0; i < _enemies.Count; i++)
-            {
-                if (_enemies[i].gameObject.activeInHierarchy)
-                {
-                    int idxModelPointTarget = (idx + i) % tf_modelPoints.Length;
-                    Vector3 posTarget = tf_modelPoints[idxModelPointTarget].position;
-
-                    //_enemies[i].TweenMoveToTarget(posTarget, 0.75f);
-                }
-            }
-
-            Invoke(nameof(LoopEnemiesMoving), 1.75f);
-        }*/
 
     public override void AllEnemyDetach()
     {

@@ -8,6 +8,8 @@ TagManager:
   - Bullet
   - BulletShip
   - BulletEnemy
+  - Magnet
+  - Coin
   layers:
   - Default
   - TransparentFX
@@ -17,7 +19,7 @@ TagManager:
   - UI
   - Damage
   - Environment
-  - 
+  - Reward
   - 
   - 
   - 
@@ -56,4 +58,7 @@ TagManager:
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: UI
+    uniqueID: 1097763349
     locked: 0

@@ -24,37 +24,14 @@ public class Enemy_1 : AbstractEnemy, ITakeHit
         this.OnHit(damage);
 
         if (this.IsDead())
-        {
+        {            
+            if(CanSpawnCoin())
+                PoolManager.Spawn(PoolType.COIN, tf.position, tf.rotation);
+
             PoolManager.Despawn(this);
             wave.Detach(this);
         }
     }
-
-    //public void Shoot()
-    //{
-    //    //anim.SetBool("isShoot", true);
-    //    _canShoot = true;
-    //    counterTime.CounterStart(null, Fire, 0.2f);
-    //    OnShoot();
-    //}
-
-    //public void Fire()
-    //{
-    //    for (int i = 0; i < barrel.points.Length; i++)
-    //    {
-    //        PoolManager.Spawn(PoolType.BULLET_ENEMY_1, barrel.points[i].position, barrel.points[i].rotation);
-    //    }
-
-    //    counterTime.CounterStart(null, Fire, barrel.rate);
-    //}
-
-    //private void Update()
-    //{
-    //    if (_canShoot)
-    //    {
-    //        counterTime.CounterExecute();
-    //    }
-    //}
 
     public override void TweenJoinWave(Vector3[] pathJoin, float t, PathType linear)
     {
@@ -66,5 +43,11 @@ public class Enemy_1 : AbstractEnemy, ITakeHit
             {
                 isImmortal = false;
             });
+    }
+
+    private bool CanSpawnCoin()
+    {
+        int numRandom = Random.Range(0, 100);
+        return numRandom >= 50;
     }
 }

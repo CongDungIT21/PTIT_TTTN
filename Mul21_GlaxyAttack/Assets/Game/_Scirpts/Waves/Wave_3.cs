@@ -33,6 +33,8 @@ public class Wave_3 : Wave
     public override void OnInit(Level level)
     {
         this.level = level;
+        this._AliveEnemies = new List<AbstractEnemy>();
+        
         for (int i = 0; i < pointSpawns.Length; i++)
         {
             if (i == 1)

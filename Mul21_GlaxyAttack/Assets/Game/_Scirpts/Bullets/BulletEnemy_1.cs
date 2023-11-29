@@ -6,7 +6,7 @@ using UnityEngine;
 public class BulletEnemy_1 : PoolMember
 {
     private float _speed = -5f;
-    private float _damage = 2f;
+    private float _damage = 5f;
 
     private void Moving()
     {

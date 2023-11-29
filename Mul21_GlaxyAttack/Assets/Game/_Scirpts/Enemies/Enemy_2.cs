@@ -25,6 +25,8 @@ public class Enemy_2 : AbstractEnemy, ITakeHit
 
         if (this.IsDead())
         {
+            if (CanSpawnCoin())
+                PoolManager.Spawn(PoolType.COIN, tf.position, tf.rotation);
             PoolManager.Despawn(this);
             wave.Detach(this);
         }
@@ -40,5 +42,11 @@ public class Enemy_2 : AbstractEnemy, ITakeHit
             {
                 isImmortal = false;
             });
+    }
+
+    private bool CanSpawnCoin()
+    {
+        int numRandom = Random.Range(0, 100);
+        return numRandom >= 50;
     }
 }

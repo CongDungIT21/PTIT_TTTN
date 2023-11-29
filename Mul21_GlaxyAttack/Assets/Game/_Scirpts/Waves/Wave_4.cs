@@ -18,8 +18,9 @@ public class Wave_4 : Wave
     public override void OnInit(Level level)
     {
         this.level = level;
-
-        for(int i = 0; i < pointSpawns.Length; i++ )
+        this._AliveEnemies = new List<AbstractEnemy>();
+        
+        for (int i = 0; i < pointSpawns.Length; i++ )
         {
            
             if(i == 1)
@@ -40,7 +41,6 @@ public class Wave_4 : Wave
 
     private void CycleMoving(List<Enemy_3> listEnemies_3, Transform[] tf_pointModels, int idx)
     {
-        Debug.Log("CycleMoving" + idx);
         if (_AliveEnemies.Count <= 0) return;
 
         for (int i = 0; i < listEnemies_3.Count; i++)

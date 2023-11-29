@@ -10,19 +10,17 @@ public abstract class Level : MonoBehaviour
     private int _IdxWave;
     private Wave _CurrentWave;
 
-    private void Start()
-    {
-        _IdxWave = 0;
-        _CurrentWave = this.waves[_IdxWave];
-    }
+    public Wave CurrentWave { get { return _CurrentWave; } }
 
     public void OnInit()
     {
         this.LoadStartWave();
+        _IdxWave = 0;
+        _CurrentWave = this.waves[_IdxWave];
     }
+
     public void LoadStartWave()
     {
-        Debug.Log("LoadStartWave");
         _IdxWave = 0;
         _CurrentWave = this.waves[_IdxWave];
         this._CurrentWave.OnInit(this);
@@ -30,7 +28,6 @@ public abstract class Level : MonoBehaviour
 
     public void LoadNextWave()
     {
-        Debug.Log("LoadNextWave");
         this._IdxWave++;
 
         if (this._IdxWave < this.waves.Length)

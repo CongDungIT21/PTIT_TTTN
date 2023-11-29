@@ -4,6 +4,8 @@ using UnityEditor.U2D.Path;
 using System;
 using UnityEngine;
 using UnityEngine.Events;
+using DG.Tweening;
+using UnityEngine.EventSystems;
 
 [System.Serializable]
 public class Barrel
@@ -12,47 +14,141 @@ public class Barrel
     public Transform[] points;
 }
 
+public enum POWERUP
+{
+    NONE,
+    HP,
+    BARREL
+}
+
 public class Ship : Character, ITakeHit, IShootable
 {
+    //public static Action<POWERUP> OnSetPowerup;
+    public static Ship Instance;
+
     [SerializeField]
     Barrel[] barrels;
     CounterTime counterTime = new CounterTime();
-
-    //-------------SOUND
-    [SerializeField]
-    AudioSource shootSound;
-
-    private float _speed = 300f;
+    
     private int _barrelIdx = 0;
-
-    Vector3 mousePoint;
     Vector2 clampfMouse = new Vector2(3, 5);
-
     private bool canControl = false;
-
+    private bool isShooting = false;
     public bool isImmortal { get ; set ; }
 
-    private void Start()
+    private POWERUP _currPowerup = POWERUP.NONE;
+
+    private void Awake()
     {
-        OnInit(40);
+        Instance = this;
+    }
+
+    public void Init()
+    {
+        canControl = false;
+        OnInit(20);
+    }
+
+    public void OnStart()
+    {
+        //canControl = false;
+        tf.position = new Vector3(0, -10, 0);
+
+        DOTween.Sequence()
+            .Append(tf.DOMove(new Vector3(0, -2, 0), 0.5f).SetEase(Ease.Linear))
+            .AppendInterval(1f);
+    }
+
+    public void OnPlay(Action callback = null)
+    {
+        DOTween.Sequence()
+            .Append(tf.DOMoveY(tf.position.y + 10, 1).SetEase(Ease.Linear).OnComplete(() => tf.position = new Vector3(0, -10, 0)))
+            .Append(tf.DOMove(new Vector3(0, -3, 0), 0.5f).SetEase(Ease.Linear))
+            .AppendCallback(() =>
+            {
+                callback?.Invoke();
+            });
+
+    }
+
+    private void OnDead()
+    {
+        this.isImmortal = true;
+        this.isShooting = false;
+        this.canControl = false;
+        GameManager.Instance.EndGameLose();
+    }
+
+    public void OnStartLevel()
+    {
+        switch (this._currPowerup)
+        {
+            case POWERUP.BARREL:
+                ApplyPowerupBarrel();
+                break;
+            case POWERUP.HP:                
+                ApplyPowerupHP();
+                break;
+            case POWERUP.NONE:
+                break;
+        }
+
+        isShooting = true;
+        canControl = true;
         Shoot();
     }
+
+    public void OnStopLevel()
+    {
+        switch (_currPowerup)
+        {
+            case POWERUP.BARREL:
+                ResertPowerupBarrel();
+                break;
+            case POWERUP.HP:
+                break;
+            case POWERUP.NONE: 
+                break;
+        }
+
+        isShooting = false;
+        canControl = false;
+    }
+
+    public void SetPowerup(POWERUP type)
+    {
+        this._currPowerup = type;
+    }
+
 
     private void Update()
     {
         if (canControl)
         {
-            ControlShip();
+            if(!IsPointerOverUIObject())
+                ControlShip();
+        }
+
+        if(isShooting)
+        {
+            counterTime.CounterExecute();
         }
     }
 
-    private void ControlShip()
+    private bool IsPointerOverUIObject()
     {
-        counterTime.CounterExecute();
+        PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
+        eventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+        return results.Count > 0;
+    }
 
+    private void ControlShip()
+    {        
         if (Input.GetMouseButton(0))
         {
-            mousePoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 mousePoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mousePoint.x = Mathf.Clamp(mousePoint.x, -clampfMouse.x, clampfMouse.x);
             mousePoint.y = Mathf.Clamp(mousePoint.y, -clampfMouse.y, clampfMouse.y);
             mousePoint.z = 0;
@@ -64,7 +160,8 @@ public class Ship : Character, ITakeHit, IShootable
 
     private void Fire()
     {
-        //shootSound.Play();
+        //if (!isShooting) return;
+        AudioSystem.Instance.PlaySoundByName(SOUND_NAME.ShipShoot);
         Barrel barrel = barrels[_barrelIdx];
         for (int i = 0; i < barrel.points.Length; i++)
         {
@@ -82,14 +179,32 @@ public class Ship : Character, ITakeHit, IShootable
     }
 
     public void TakeHit(float damage)
-    {
-        Debug.Log("Take Hit Player");
+    {        
         OnHit(damage);
+        if (this.IsDead())
+        {
+            OnDead();
+        }
     }
 
     public void Shoot()
     {
-        counterTime.CounterStart(null, Fire, 0.2f);
-        canControl = true;
+        isShooting = true;
+        counterTime.CounterStart(null, Fire, 0.2f);        
+    }
+
+    private void ApplyPowerupBarrel()
+    {
+        this._barrelIdx += 2;
+    }
+
+    private void ApplyPowerupHP()
+    {
+        this.OnHeal(10);
+    }
+
+    private void ResertPowerupBarrel()
+    {
+        this._barrelIdx -= 2;
     }
 }

@@ -57,6 +57,7 @@ public static class PoolManager
 
     static public void Despawn(PoolMember mem)
     {
+        
         if (mem.gameObject.activeSelf)
         {
             if (IsHasPool(mem.poolType))
@@ -66,22 +67,19 @@ public static class PoolManager
         }
     }
 
-    static public void Release(PoolMember mem)
+
+    static public void Release(PoolType poolType)
     {
-        if (IsHasPool(mem.poolType))
+        if (IsHasPool(poolType))
         {
-            GetPool(mem.poolType).Release();
-            RemovePool(mem.poolType);
-        }
-        else
-        {
-            GameObject.DestroyImmediate(mem);
+            GetPool(poolType).Release();
+            RemovePool(poolType);
         }
     }
 
-    static public void Collect(PoolMember mem)
+    static public void Collect(PoolType poolType)
     {
-        if (IsHasPool(mem.poolType))
-            GetPool(mem.poolType).Collect();
+        if (IsHasPool(poolType))
+            GetPool(poolType).Collect();
     }
 }
